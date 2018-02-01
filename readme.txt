@@ -1,0 +1,2 @@
+Cryptocoins Signals mailer.
+
