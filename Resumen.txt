@@ -29,7 +29,5 @@ Como lidiar con todas las cripto de los exchange. Pueden ser todas o algunas.
 
 Historial bajar datos () Posiblemente se tenga que realizar una descarga de datos. 
 
-
-
 ------------------------------------------------------------------------------------------------------------------------
 
