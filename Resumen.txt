@@ -1,13 +1,16 @@
+Inicio del plan  31/01/2018 
+
 Señales de inversion automatizadas. Enviar por email (futuro telegram)
 
 
-timeFrame
+timeFrame <------- Este es el tipo de dato que necesito.
 
 
-DTOHLCV DataFrame               <----- Tipo de dato.
+DTOHLCV DataFrame               <----- Formato de dato.
 
 
-VolumenPower      window y umbral (Usuario)
+VolumenPower      window y umbral (Usuario)  Este indicador compara el volumen actual de la compra  y la compara con 
+la ventana anterior (Promedio) da un porcentaje de crecimiento o decrecimiento.
 
 
 
@@ -24,5 +27,9 @@ Config.py Donde se pueda elegir TimeFrame variables, etc.
 
 Como lidiar con todas las cripto de los exchange. Pueden ser todas o algunas.
 
-Historial bajar datos ()
+Historial bajar datos () Posiblemente se tenga que realizar una descarga de datos. 
+
+
+
+------------------------------------------------------------------------------------------------------------------------
 
