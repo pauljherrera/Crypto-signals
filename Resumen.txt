@@ -1,0 +1,28 @@
+Señales de inversion automatizadas. Enviar por email (futuro telegram)
+
+
+timeFrame
+
+
+DTOHLCV DataFrame               <----- Tipo de dato.
+
+
+VolumenPower      window y umbral (Usuario)
+
+
+
+si todos los indicadores son "positivos"  Existe señal
+
+
+compisicion (Emailer)
+
+
+Config.py Donde se pueda elegir TimeFrame variables, etc.
+
+
+1 script para binance 1 script para bittrex.
+
+Como lidiar con todas las cripto de los exchange. Pueden ser todas o algunas.
+
+Historial bajar datos ()
+
