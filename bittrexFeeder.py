@@ -22,7 +22,7 @@ class BittrexFeeder(DataFeeder):
 
     def get_ticks(self,market,interval):
 
-        dict_ticks = my_Bittrex.get_candles(
+        dict_ticks = my_Bittrex_v2.get_candles(
         market=market, tick_interval=interval)
 
         dict_dtohlcv = dict_ticks['result']
