@@ -1,5 +1,5 @@
 import pandas as pd 
-from bittrexFeeder import BittrexFeeder
+from Feeders.bittrexFeeder import BittrexFeeder
 import time
 start_time = time.time()
 

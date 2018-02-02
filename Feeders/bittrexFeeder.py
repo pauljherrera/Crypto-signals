@@ -1,6 +1,6 @@
 import pandas as pd
 import matplotlib.pyplot as plt
-from datafeeder import DataFeeder
+from Feeders.datafeeder import DataFeeder
 from bittrex import Bittrex, API_V2_0, TICKINTERVAL_FIVEMIN
 # In order to get the ticks, we have to use V2 API
 
