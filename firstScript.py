@@ -22,27 +22,7 @@ def main():
             a = a+1
             print(a)
 
-
-
-    # ohlcv = bittrex.get_ticks("BTC-ETH","hour")
-
-    # print(ohlcv)
-
-    # openValue = bittrex.get_open(ohlcv)
-
-    # print(openValue)
-
-
-    # volumeValue = bittrex.get_volume(ohlcv)
-
-    # print(volumeValue)
-
-
-
-
-
-
-
+    #This loop get all data from ALL markets. It takes up to 489.637 s . This is the part we need to improve.
 
 
 
