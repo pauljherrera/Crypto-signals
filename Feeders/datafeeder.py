@@ -49,7 +49,6 @@ class DataFeeder(object):
 
         """
         closeV = data['C']
-    
         
         return closeV
 

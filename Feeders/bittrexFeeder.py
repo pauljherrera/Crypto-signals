@@ -21,7 +21,26 @@ class BittrexFeeder(DataFeeder):
         setattr(self,"Markets",market_names)
 
     def get_ticks(self,market,interval):
+        """Get DTOHLCV data from a specific market
 
+        :param market: Specific market from Bittrex
+            Example: "BTC-ETH"
+        :type market: pandas.DataFrame
+
+        :param interval: Time interval for DTOHLVC data
+        :type interval : Str.
+
+        
+        :returns: pd.DataFrame
+
+        >>> bittrex=BittrexFeeder()
+        >>> bittrex.get_ticks('BTC-ETH','fiveMin)
+
+                                         BV        C          H         L         O        V
+            T
+            2018-01-14 22:50:00   26.558818  0.099100  0.099330  0.098800  0.098998  268.215904
+
+        """
         dict_ticks = my_Bittrex_v2.get_candles(
         market=market, tick_interval=interval)
 
@@ -30,8 +49,10 @@ class BittrexFeeder(DataFeeder):
         df_DTOHLCV = pd.DataFrame(dict_dtohlcv)
         df_DTOHLCV = df_DTOHLCV.set_index('T')
         df_DTOHLCV.index = pd.to_datetime(df_DTOHLCV.index)
-
+        #Converting index type from str to datetimeindex
         return df_DTOHLCV
 
+    def get_latest_tick(self,market,interval):
+        pass
 
 
