@@ -10,7 +10,7 @@ my_Bittrex_v1 = Bittrex(None,None)
 
 class BittrexFeeder(DataFeeder):
     
-    def __init__(self):
+    def __init__(self,MarketName,interval):
         
 
         super().__init__()
@@ -18,9 +18,11 @@ class BittrexFeeder(DataFeeder):
         markets = dict_markets['result']
         df_markets = pd.DataFrame(markets)
         market_names = df_markets['MarketName']
+        self.MarketName = MarketName
+        self.interval = interval
         setattr(self,"Markets",market_names)
 
-    def get_ticks(self,market,interval):
+    def get_ticks(self):
         """Get DTOHLCV data from a specific market
 
         :param market: Specific market from Bittrex
@@ -42,7 +44,7 @@ class BittrexFeeder(DataFeeder):
 
         """
         dict_ticks = my_Bittrex_v2.get_candles(
-        market=market, tick_interval=interval)
+        market=self.MarketName, tick_interval=self.interval)
 
         dict_dtohlcv = dict_ticks['result']
 
