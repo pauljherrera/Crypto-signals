@@ -56,7 +56,7 @@ class Strategy(object):
         self.data['crossover'] = np.where((self.data['slowEma'] > self.data['fastEma']) & (self.data['slowEma'].shift(
             1) <= self.data['fastEma'].shift(1)), 1, 0)
 
-        return self.data['crossover']
+        return self.data
 
 
 
