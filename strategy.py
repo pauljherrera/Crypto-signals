@@ -1,6 +1,6 @@
 import pandas as pd 
 import numpy as np
-
+import smtplib
 
 class Strategy(object):
     """This class indicates an investment opportunity 
@@ -8,7 +8,25 @@ class Strategy(object):
 
 
     def __init__(self,feeder,data,slowEMA,fastEMA,window,threshold):
-        
+        """Initial parameter for the strategy
+        :param feeder: Name of the exchange we are currently working.
+        :type feeder: Str.
+
+        :param data: DTOHLCV values from exchange at set interval
+        _type data: pandas.DataFrame
+
+        :param slowEMA: Slow window por EMA
+        :type slowEMA: int
+
+        :param fastEMA: fast window por EMA
+        :type fastEMA: int
+
+        :param window: window for volumePower calculations
+        :type window: int
+
+        :param threshold: arbitrary threshold for volumePower notifications.
+        :type threshold: int
+        """
         self.feeder = feeder
         self.data = data
         self.slowEMA = slowEMA
@@ -25,9 +43,12 @@ class Strategy(object):
     
         if (data['crossover'].iloc[-1] == 1) & (average > self.threshold) :
             investment = True
+            self.send_email("Invest")
 
         else:
             investment = False
+            msg = "Crossover:    " + str(data['crossover'].iloc[-1]) + "Porcentaje  " + str(average)
+            self.send_email(msg)
             
         return investment
 
@@ -67,3 +88,27 @@ class Strategy(object):
         a[:window] = a[window]
 
         return a
+
+
+    def send_email(self,msg):
+        """
+        Takes all the params to build the email and send it
+        """
+        fromaddr = 'luisomar242@gmail.com' #from
+        toaddrs  = 'luisomar242@gmail.com' #to
+
+        msg = "\r\n".join([
+        "From: {}".format(fromaddr),
+        "To: {}".format(toaddrs),
+        "Subject: Investment Opportunity!",
+        "",
+        msg
+        ])
+        username = 'luisomar242@gmail.com'         #username
+        password = 'iec10300125'         #password
+        server = smtplib.SMTP('smtp.gmail.com:587')
+        server.ehlo()
+        server.starttls()
+        server.login(username,password)
+        server.sendmail(fromaddr, toaddrs, msg)
+        server.quit()
