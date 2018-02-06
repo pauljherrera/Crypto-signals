@@ -14,13 +14,14 @@ class BittrexFeeder(DataFeeder):
         
 
         super().__init__()
-        dict_markets= my_Bittrex_v1.get_markets()
-        markets = dict_markets['result']
-        df_markets = pd.DataFrame(markets)
-        market_names = df_markets['MarketName']
+        # dict_markets= my_Bittrex_v1.get_markets()
+        # markets = dict_markets['result']
+        # df_markets = pd.DataFrame(markets)                Obtain the markets name for multiple selction 
+        # market_names = df_markets['MarketName']
         self.MarketName = MarketName
         self.interval = interval
-        setattr(self,"Markets",market_names)
+        self.name = "Bittrex"
+        setattr(self,"Name",self.name)
 
     def get_ticks(self):
         """Get DTOHLCV data from a specific market
