@@ -104,8 +104,8 @@ class Strategy(object):
         "",
         msg
         ])
-        username = 'luisomar242@gmail.com'         #username
-        password = 'iec10300125'         #password
+        username = 'user'         #username
+        password = 'password'         #password
         server = smtplib.SMTP('smtp.gmail.com:587')
         server.ehlo()
         server.starttls()
