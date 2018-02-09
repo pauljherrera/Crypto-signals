@@ -17,6 +17,10 @@ import threading
 my_bittrex = BittrexFeeder()
 feeder = my_bittrex.name
 my_strategy = Strategy(feeder)
+interval = bittrex_config["interval"]
+cronIntervals = bittrex_config['cron_intervals']
+cronTrigger = cronIntervals[interval]
+
 
 def analyze_market(market):
     global my_bittrex
@@ -37,7 +41,6 @@ def run(markets):
     print(datetime.utcnow().strftime('%Y-%m-%d %H:%M:%S.%f')[:-3])
 
 
-
 def main():
     global my_bittrex
     global my_strategy
@@ -49,7 +52,14 @@ def main():
     print(markets)
 
     scheduler = BlockingScheduler()
-    scheduler.add_job(run, trigger='cron', minute='*/2', args=[markets])
+
+    if interval == 'day':
+        scheduler.add_job(run, trigger='cron', minute=00,
+                          hour=10, day=cronTrigger, args=[markets])
+    else:
+        scheduler.add_job(run, trigger='cron',
+                          minute=cronTrigger, args=[markets])
+
     scheduler.start()
 
 
