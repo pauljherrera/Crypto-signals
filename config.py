@@ -1,5 +1,5 @@
 strategy_config = {
-    "destination_email" : ["luisomar242@gmail.com","luisomar242@gmail.com"]
+    "destination_email" : ["luisomar242@gmail.com","cherpad78@gmail.com"]
 }
 
 
