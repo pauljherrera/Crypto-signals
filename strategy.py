@@ -7,13 +7,10 @@ class Strategy(object):
     """
 
 
-    def __init__(self,feeder,data,slowEMA,fastEMA,window,threshold):
+    def __init__(self,feeder,slowEMA,fastEMA,window,threshold):
         """Initial parameter for the strategy
         :param feeder: Name of the exchange we are currently working.
         :type feeder: Str.
-
-        :param data: DTOHLCV values from exchange at set interval
-        _type data: pandas.DataFrame
 
         :param slowEMA: Slow window por EMA
         :type slowEMA: int
@@ -28,56 +25,59 @@ class Strategy(object):
         :type threshold: int
         """
         self.feeder = feeder
-        self.data = data
         self.slowEMA = slowEMA
         self.fastEMA = fastEMA
         self.window = window
         self.threshold = threshold
 
 
-    def Opportunity(self):
-        
-        data = self._crossover()
-        average = self._powerVolumes()
-
+    def Opportunity(self,data,market):
     
-        if (data['crossover'].iloc[-1] == 1) & (average > self.threshold) :
-            investment = True
-            self.send_email("Invest")
+       try:
+            values = self._crossover(data)
+            average = self._powerVolumes(data)
+            market_name = market
+        
+            if (values['crossover'].iloc[-1] == 1) & (average > self.threshold) :
+                investment = True
+                msg = "Invest on: " + market_name + " " + "in" + self.feeder
+                self.send_email(msg)
 
-        else:
-            investment = False
-            msg = "Crossover:    " + str(data['crossover'].iloc[-1]) + "Porcentaje  " + str(average)
-            self.send_email(msg)
+            else:
+                investment = False
+                #msg = "Crossover:    " + str(values['crossover'].iloc[-1]) + "Porcentaje  " + str(average)
+            # self.send_email(msg)
+       except KeyError as e:
+            print(e)
+            investment = 'Error'
             
-        return investment
+       return investment
 
 
-    def _powerVolumes(self):
+    def _powerVolumes(self,data):
         """Calculates the "power" of the current volume based on the 
         average volume of the last X periods.
         """
 
-        period = len(self.data)-self.window
-        windowData = self.data.shift(1)
+        period = len(data)-self.window
+        windowData = data.shift(1)
 
         averageWindow = windowData['V'][period:].mean()
-        averageWindow
-        percentValue = (
-            (self.data['V'].iloc[-1] - averageWindow) / averageWindow) * 100
+        
+        percentValue = ((data['V'].iloc[-1] - averageWindow) / averageWindow) * 100
 
         return percentValue        
 
 
-    def _crossover(self):
-        self.data = self.data
-        self.data['slowEma'] = self._expMovingAverage(self.data['C'], self.slowEMA)
-        self.data['fastEma'] = self._expMovingAverage(self.data['C'], self.fastEMA)
+    def _crossover(self,data):
+        
+        data['slowEma'] = self._expMovingAverage(data['C'], self.slowEMA)
+        data['fastEma'] = self._expMovingAverage(data['C'], self.fastEMA)
 
-        self.data['crossover'] = np.where((self.data['slowEma'] > self.data['fastEma']) & (self.data['slowEma'].shift(
-            1) <= self.data['fastEma'].shift(1)), 1, 0)
+        data['crossover'] = np.where((data['slowEma'] > data['fastEma']) & (data['slowEma'].shift(
+            1) <= data['fastEma'].shift(1)), 1, 0)
 
-        return self.data
+        return data
 
 
 
@@ -104,8 +104,8 @@ class Strategy(object):
         "",
         msg
         ])
-        username = 'user'         #username
-        password = 'password'         #password
+        username = ''         #username
+        password = ''         #password
         server = smtplib.SMTP('smtp.gmail.com:587')
         server.ehlo()
         server.starttls()
