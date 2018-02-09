@@ -2,3 +2,4 @@ pandas
 python-bittrex
 python-binance
 matplotlib
+tqdm
