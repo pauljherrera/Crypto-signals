@@ -9,33 +9,31 @@ from tqdm import tqdm
 
 def main():
     
-    my_bittrex = BittrexFeeder('fiveMin')
+    my_bittrex = BittrexFeeder()
     # Initialize BittrexFeeder
-    feeder = my_bittrex.Name
+    feeder = my_bittrex.name
     # Set Feeder name
 
     # Create the strategy with options from the user.
-    my_strategy = Strategy(feeder, slowEMA=5,
-                           fastEMA=20, window=30, threshold=10)
+    my_strategy = Strategy(feeder)
 
-    
-    market_list = ['BTC-LTC','BTC-ETH','BTC-XMR','BTC-CLOAK','BTC-VRC','BTC-AUR','BTC-PTC','BTC-CURE','BTC-DASH']
-    markets = my_bittrex._get_markets(market_list)
+    markets = my_bittrex._get_markets()
     print(markets)
 
     while True :
 
-        start_time = time.time()
+        start_time1 = time.time()
 
         for market in tqdm(markets):
                     
-                
+            start_time = time.time()    
             df_market = my_bittrex.get_ticks(market)
-
-            my_strategy.Opportunity(df_market,market)
+            tqdm.write("--- %s seconds ---" % (time.time() - start_time))
+            status = my_strategy.Opportunity(df_market,market)
+            tqdm.write(str(status))
               
-        time.sleep(301-((time.time() - start_time) % 60))    
-        print("--- %s seconds ---" % (time.time() - start_time))
+        #time.sleep(301-((time.time() - start_time) % 60))    
+        print("--- %s seconds ---" % (time.time() - start_time1))
 
 
 if __name__ == '__main__':

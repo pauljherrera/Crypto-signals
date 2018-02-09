@@ -3,17 +3,18 @@ import matplotlib.pyplot as plt
 from Feeders.datafeeder import DataFeeder
 from bittrex import Bittrex, API_V2_0, TICKINTERVAL_FIVEMIN
 from tqdm import tqdm
+from config import bittrex_config
 import os
 # In order to get the ticks, we have to use V2 API
 
 my_Bittrex_v2 = Bittrex(None, None, api_version=API_V2_0)
 my_Bittrex_v1 = Bittrex(None, None)
 # Initialize bittrex object.
-
-
+interval = bittrex_config["interval"]
+market_list = bittrex_config["markets"]
 class BittrexFeeder(DataFeeder):
 
-    def __init__(self, interval):
+    def __init__(self):
 
         super().__init__()
         self.interval = interval
@@ -55,7 +56,7 @@ class BittrexFeeder(DataFeeder):
         # Converting index type from str to datetimeindex
         
         except KeyError as e:
-            print(e)
+            pass
 
 
         return df_DTOHLCV
@@ -74,7 +75,7 @@ class BittrexFeeder(DataFeeder):
 
         return df_DTOHLCV_latest
 
-    def _get_markets(self,market_list = None):
+    def _get_markets(self):
       
         if market_list is not None:
             market_names = market_list
@@ -99,8 +100,7 @@ class BittrexFeeder(DataFeeder):
             try:
                 market_dict[market] = self.get_ticks(market)
             except KeyError as identifier:
-                print("/n Error")
-                os.system('cls')
+                pass
 
         return(market_dict)
 

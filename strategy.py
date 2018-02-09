@@ -1,13 +1,20 @@
 import pandas as pd 
 import numpy as np
 import smtplib
+from config import Ema_crossover_config,volume_power_config,strategy_config 
+
+slowEma = Ema_crossover_config["slowEma"]
+fastEma = Ema_crossover_config["fastEma"]
+window = volume_power_config["window"]
+threshold = volume_power_config["threshold"]
+dest_mail = strategy_config["destination_email"]
 
 class Strategy(object):
     """This class indicates an investment opportunity 
     """
 
 
-    def __init__(self,feeder,slowEMA,fastEMA,window,threshold):
+    def __init__(self,feeder):
         """Initial parameter for the strategy
         :param feeder: Name of the exchange we are currently working.
         :type feeder: Str.
@@ -25,8 +32,8 @@ class Strategy(object):
         :type threshold: int
         """
         self.feeder = feeder
-        self.slowEMA = slowEMA
-        self.fastEMA = fastEMA
+        self.slowEMA = slowEma
+        self.fastEMA = fastEma
         self.window = window
         self.threshold = threshold
 
@@ -45,10 +52,9 @@ class Strategy(object):
 
             else:
                 investment = False
-                #msg = "Crossover:    " + str(values['crossover'].iloc[-1]) + "Porcentaje  " + str(average)
-            # self.send_email(msg)
+                msg = "Crossover:    " + str(values['crossover'].iloc[-1]) + "Porcentaje   " + str(average)
+                
        except KeyError as e:
-            print(e)
             investment = 'Error'
             
        return investment
@@ -95,7 +101,7 @@ class Strategy(object):
         Takes all the params to build the email and send it
         """
         fromaddr = 'luisomar242@gmail.com' #from
-        toaddrs  = 'luisomar242@gmail.com' #to
+        toaddrs  = dest_mail #to
 
         msg = "\r\n".join([
         "From: {}".format(fromaddr),
@@ -104,8 +110,8 @@ class Strategy(object):
         "",
         msg
         ])
-        username = ''         #username
-        password = ''         #password
+        username = 'luisomar242@gmail.com'         #username
+        password = 'iec-103-00125'         #password
         server = smtplib.SMTP('smtp.gmail.com:587')
         server.ehlo()
         server.starttls()
