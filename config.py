@@ -7,7 +7,7 @@ strategy_config = {
 bittrex_config = {
 
     "interval" : 'fiveMin',       #intervals available on bittrex : oneMin, fiveMin ,thirtyMin, hour , Day
-    "markets" : None,
+    "markets" : None,      #['BTC-LTC','BTC-ETH','BTC-XMR','BTC-CLOAK','BTC-VRC','BTC-AUR','BTC-PTC','BTC-CURE','BTC-DASH']
     "cron_intervals" : {"fiveMin": "*/5", 'thirtyMin' : '*/30', 'hour':'*/30 ','day':'*/1'}   #
 
 }
